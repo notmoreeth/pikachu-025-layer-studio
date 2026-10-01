@@ -94,52 +94,72 @@
   <div class="viewport" id="view"><canvas id="cv"></canvas><div class="hint">Drag to turn</div></div>
   <label class="slide">Pull apart <span id="exv">6</span></label>
   <input id="explode" type="range" min="0" max="16" value="6">
-  <p class="note">This is the stack glued in order: whole card, shop with the three holes, Pikachu, left pot, right basket. Pull apart to check that the pots cover the hands and the tail, not the face.</p>
+  <p class="note">Back to front: whole card, window hole, stool, pots, flowers, Pikachu, then the name, HP, Spark, and the big face. Pull apart to check the edges.</p>
 </section>
 
 <section class="view" id="steps">
   <ol>
-    <li>Buy 16 copies of Pikachu 025/128. One stays whole as the back.</li>
-    <li>Agree the shapes here first. Drag each blob until it covers the matching part of the art.</li>
-    <li>Shop layer: cut three holes, Pikachu, the left pot, and the right basket. Keep the window, the purple bouquet, and the stool. Two copies.</li>
-    <li>Pikachu: cut the sitting body, both ears, and the tail as one piece. Three copies. Do not cut the face.</li>
-    <li>Left pot and right basket: cut each blob, throw away the rest. Two of each.</li>
-    <li>Paint the white core on every cut edge. Glue duplicates face to face. Foam tape only between planes.</li>
-    <li>Order from the back: whole card, shop, Pikachu, left pot, right basket. The pots sit in front of the body.</li>
+    <li>One card stays whole as the back.</li>
+    <li>Window: cut the pane out. That hole is the negative space, same idea as the frame in the video. Two copies.</li>
+    <li>Stool, left pot, right pot, left flowers, right flowers, Pikachu: each is its own cut, following the edge of that piece. Two of each, three of Pikachu.</li>
+    <li>Name, HP, the word Spark, and the big face on the lower half are separate raised layers. Two of each.</li>
+    <li>Paint the white core. Glue duplicates face to face. Foam tape only between planes.</li>
+    <li>Back to front: whole card, window frame, stool, pots, flowers, Pikachu, then the words and the big face.</li>
   </ol>
   <p class="note">Four of the 16 are spares. Do not cut eyes, cheeks, or single petals. The blade cannot hold them on a card this small.</p>
 </section>
 
 <script>
 const layers = [
-  { id: "shop", name: "Shop holes", color: "#ff5a4a", copies: 2, keep: "the window and the back flowers", cut: "holes for Pikachu, the left pot, and the right basket",
-    blurb: "Cut only these three holes. The window, the purple bouquet, and the stool stay, so Pikachu still has something to sit on.",
-    shapes: [
-      { id: "body", d: "M43 16 L39 23 L42 28 C38 30 34 36 33 44 C32 50 35 55 41 57 L52 57 C58 55 61 50 60 44 C59 38 56 32 53 29 L55 22 L62 17 L56 16 L50 21 L46 16 Z M55 33 L70 32 L75 38 L66 43 L55 40 Z" },
-      { id: "left", d: "M14 28 C10 32 10 40 13 48 C15 54 20 58 27 58 C33 57 36 52 35 46 C34 40 32 34 28 29 C24 25 18 25 14 28 Z" },
-      { id: "right", d: "M62 44 C66 41 74 41 80 44 C85 47 86 52 82 56 C76 60 68 60 63 56 C60 53 60 47 62 44 Z" }
-    ]},
-  { id: "body", name: "Pikachu", color: "#e2b43a", copies: 3, keep: "Pikachu, ears and tail included", cut: "everything else",
-    blurb: "This is the sitting Pikachu in the middle of the window. Ears and the lightning tail stay on the same piece. Do not cut the eyes or cheeks.",
-    shapes: [{ id: "body", d: "M43 16 L39 23 L42 28 C38 30 34 36 33 44 C32 50 35 55 41 57 L52 57 C58 55 61 50 60 44 C59 38 56 32 53 29 L55 22 L62 17 L56 16 L50 21 L46 16 Z M55 33 L70 32 L75 38 L66 43 L55 40 Z" }] },
-  { id: "left", name: "Left pot", color: "#e08a3c", copies: 2, keep: "the peach flowers and the green pot", cut: "everything else",
-    blurb: "The left foreground pot. It overlaps Pikachu's left hand, so it sits in front of the body.",
-    shapes: [{ id: "left", d: "M14 28 C10 32 10 40 13 48 C15 54 20 58 27 58 C33 57 36 52 35 46 C34 40 32 34 28 29 C24 25 18 25 14 28 Z" }] },
-  { id: "right", name: "Right basket", color: "#d16b8c", copies: 2, keep: "the orange flowers and the basket", cut: "everything else",
-    blurb: "The basket in front of the tail. The purple bouquet behind it stays on the shop layer.",
-    shapes: [{ id: "right", d: "M62 44 C66 41 74 41 80 44 C85 47 86 52 82 56 C76 60 68 60 63 56 C60 53 60 47 62 44 Z" }] }
+  { id: "window", name: "Window", color: "#7eb6e0", copies: 2, keep: "the frame", cut: "the pane, as negative space",
+    blurb: "Cut this rectangle out. It is the window behind Pikachu, the same kind of opening as the frame in the video.",
+    shapes: [{ id: "window", d: "M28.6 16.1 L64.1 15.9 L65.2 27.1 L27.0 27.6 Z" }] },
+  { id: "pika", name: "Pikachu", color: "#e2b43a", copies: 3, keep: "the sitting Pikachu", cut: "everything else",
+    blurb: "Follows the ears, the body, the left hand, the feet, and the lightning tail. Do not cut the eyes or cheeks.",
+    shapes: [{ id: "pika", d: "M46.1 16.7 L43.1 23.9 L47.5 31.4 L40.9 35.5 L34.4 46.5 L31.1 53.6 L34.4 61.2 L57.0 61.2 L61.7 54.0 L58.9 47.9 L76.7 41.0 L68.9 47.6 L61.1 49.9 L59.3 41.7 L69.8 20.8 L62.5 27.1 L54.8 29.8 L50.8 25.3 Z" }] },
+  { id: "stool", name: "Stool", color: "#2aa8a0", copies: 2, keep: "the teal seat", cut: "everything else",
+    blurb: "The seat under the feet, between the two pots.",
+    shapes: [{ id: "stool", d: "M34.8 56.9 L68.2 56.1 L69.3 62.9 L34.1 63.7 Z" }] },
+  { id: "lpot", name: "Left pot", color: "#3f9d62", copies: 2, keep: "the green planter", cut: "everything else",
+    blurb: "The polka-dot pot only. The flowers above it are the next layer.",
+    shapes: [{ id: "lpot", d: "M8.2 42.7 L28.6 41.3 L30.6 62.6 L7.4 63.4 Z" }] },
+  { id: "lflowers", name: "Left flowers", color: "#e08a3c", copies: 2, keep: "the peach bouquet", cut: "everything else",
+    blurb: "The flowers in the left planter, sitting in front of the pot.",
+    shapes: [{ id: "lflowers", d: "M6.8 19.4 L25.6 18.6 L27.6 41.7 L10.4 45.1 L6.3 29.4 Z" }] },
+  { id: "rpot", name: "Right pot", color: "#c48a4a", copies: 2, keep: "the cream planter", cut: "everything else",
+    blurb: "The planter under the orange flowers, in front of the tail.",
+    shapes: [{ id: "rpot", d: "M67.7 53.0 L86.2 52.0 L87.9 63.2 L68.5 64.0 Z" }] },
+  { id: "rflowers", name: "Right flowers", color: "#d4544a", copies: 2, keep: "the orange bouquet", cut: "everything else",
+    blurb: "The orange flowers in the right planter. The purple bouquet behind stays on the back card.",
+    shapes: [{ id: "rflowers", d: "M67.9 45.1 L84.9 44.3 L86.5 54.7 L66.8 55.8 Z" }] },
+  { id: "name", name: "Name", color: "#f4efe4", copies: 2, keep: "the word Pikachu", cut: "everything else",
+    blurb: "The name in the top bar, raised like a paper letter layer.",
+    shapes: [{ id: "name", d: "M13.1 5.5 L39.6 5.2 L39.8 12.9 L12.8 13.1 Z" }] },
+  { id: "hp", name: "HP", color: "#f0d56a", copies: 2, keep: "HP 70 and the lightning mark", cut: "everything else",
+    blurb: "The hit-point block at the top right.",
+    shapes: [{ id: "hp", d: "M68.2 3.8 L92.5 3.6 L92.8 12.3 L67.7 12.6 Z" }] },
+  { id: "spark", name: "Spark", color: "#ffffff", copies: 2, keep: "the word Spark", cut: "everything else",
+    blurb: "The attack name on the big face.",
+    shapes: [{ id: "spark", d: "M27.0 79.6 L47.5 78.5 L48.0 87.8 L26.2 88.6 Z" }] },
+  { id: "face", name: "Big face", color: "#e6c44a", copies: 2, keep: "the large head graphic", cut: "everything else",
+    blurb: "The Pikachu head printed on the lower half, ears included.",
+    shapes: [{ id: "face", d: "M20.5 70.8 L28.6 80.7 L19.8 88.9 L15.7 99.8 L27.3 110.1 L58.7 111.0 L78.4 103.9 L82.5 87.5 L74.4 74.5 L66.8 70.0 L49.1 72.2 Z" }] }
 ];
-let current = "shop";
+let current = "all";
 const overlay = document.getElementById("overlay");
 const chips = document.getElementById("chips");
 function renderChips() {
-  chips.innerHTML = layers.map(l => `<button data-id="${l.id}" class="${l.id===current?"on":""}">${l.name}</button>`).join("");
+  const all = `<button data-id="all" class="${current==="all"?"on":""}">All layers</button>`;
+  chips.innerHTML = all + layers.map(l => `<button data-id="${l.id}" class="${l.id===current?"on":""}">${l.name}</button>`).join("");
   chips.querySelectorAll("button").forEach(b => b.onclick = () => { current = b.dataset.id; renderChips(); draw(); });
 }
 function draw() {
+  const shown = current === "all" ? layers : layers.filter(l => l.id === current);
   const L = layers.find(l => l.id === current);
-  document.getElementById("blurb").innerHTML = `<b>${L.name}</b> · cut ${L.copies}. Keep ${L.keep}. ${L.blurb}`;
-  overlay.innerHTML = L.shapes.map(s => `<path data-id="${s.id}" d="${s.d}" fill="${L.color}55" stroke="${L.color}" stroke-width="1.1" />`).join("");
+  document.getElementById("blurb").innerHTML = current === "all"
+    ? "<b>All layers.</b> Each outline is one cut. Window is the hole. Pots sit under their flowers. Words and the big face are raised off the lower half."
+    : `<b>${L.name}</b> · cut ${L.copies}. Keep ${L.keep}. ${L.blurb}`;
+  overlay.innerHTML = shown.flatMap(l => l.shapes.map(s => `<path data-id="${s.id}" d="${s.d}" fill="${l.color}55" stroke="${l.color}" stroke-width="0.8" />`)).join("");
   overlay.querySelectorAll("path").forEach(p => bindDrag(p));
 }
 let drag = null;
@@ -202,23 +222,29 @@ function world(z, draw) {
   ctx.restore();
 }
 function drawCard() { ctx.drawImage(img, 0, 0, 100, 140); }
-function shape(id) { return layers[0].shapes.find(s => s.id === id).d; }
+function shape(id) {
+  for (const layer of layers) {
+    const found = layer.shapes.find(s => s.id === id);
+    if (found) return found.d;
+  }
+}
 function frame() {
   ctx.clearRect(0, 0, cv.width, cv.height);
   if (!img.complete) { requestAnimationFrame(frame); return; }
-  const g = explode * 1.2;
+  const g = explode * 0.85;
+  const order = ["window", "stool", "lpot", "rpot", "lflowers", "rflowers", "pika", "name", "hp", "spark", "face"];
   world(0, drawCard);
-  world(g, () => {
-    drawCard();
-    ctx.globalCompositeOperation = "destination-out";
-    ["body", "left", "right"].forEach(id => ctx.fill(new Path2D(shape(id))));
-    ctx.globalCompositeOperation = "source-over";
-  });
-  ["body", "left", "right"].forEach((id, i) => {
-    world(g * (2.1 + i * 0.7), () => {
+  order.forEach((id, i) => {
+    world(g * (i + 1), () => {
       ctx.save();
-      ctx.clip(new Path2D(shape(id)));
-      drawCard();
+      if (id === "window") {
+        drawCard();
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fill(new Path2D(shape(id)));
+      } else {
+        ctx.clip(new Path2D(shape(id)));
+        drawCard();
+      }
       ctx.restore();
     });
   });
