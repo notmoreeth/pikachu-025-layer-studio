@@ -94,43 +94,40 @@
   <div class="viewport" id="view"><canvas id="cv"></canvas><div class="hint">Drag to turn</div></div>
   <label class="slide">Pull apart <span id="exv">6</span></label>
   <input id="explode" type="range" min="0" max="16" value="6">
-  <p class="note">This is the stack glued in order: base, shop with holes, side flowers, body, front bed. Pull apart to check that nothing important is hidden.</p>
+  <p class="note">This is the stack glued in order: whole card, shop with the three holes, Pikachu, left pot, right basket. Pull apart to check that the pots cover the hands and the tail, not the face.</p>
 </section>
 
 <section class="view" id="steps">
   <ol>
     <li>Buy 16 copies of Pikachu 025/128. One stays whole as the back.</li>
     <li>Agree the shapes here first. Drag each blob until it covers the matching part of the art.</li>
-    <li>Shop layer: cut the holes, keep the flower shop. Two copies.</li>
-    <li>Body, left flowers, right flowers, front bed: cut the blob, throw away the rest. Two of each, three of the body.</li>
+    <li>Shop layer: cut three holes, Pikachu, the left pot, and the right basket. Keep the window, the purple bouquet, and the stool. Two copies.</li>
+    <li>Pikachu: cut the sitting body, both ears, and the tail as one piece. Three copies. Do not cut the face.</li>
+    <li>Left pot and right basket: cut each blob, throw away the rest. Two of each.</li>
     <li>Paint the white core on every cut edge. Glue duplicates face to face. Foam tape only between planes.</li>
-    <li>Order from the back: whole card, shop, left and right flowers, body, front bed.</li>
+    <li>Order from the back: whole card, shop, Pikachu, left pot, right basket. The pots sit in front of the body.</li>
   </ol>
   <p class="note">Four of the 16 are spares. Do not cut eyes, cheeks, or single petals. The blade cannot hold them on a card this small.</p>
 </section>
 
 <script>
 const layers = [
-  { id: "shop", name: "Shop holes", color: "#ff5a4a", copies: 2, keep: "the shop", cut: "holes for the body and flowers",
-    blurb: "Cut only the red holes. The flower shop stays. This card sits just above the uncut base.",
+  { id: "shop", name: "Shop holes", color: "#ff5a4a", copies: 2, keep: "the window and the back flowers", cut: "holes for Pikachu, the left pot, and the right basket",
+    blurb: "Cut only these three holes. The window, the purple bouquet, and the stool stay, so Pikachu still has something to sit on.",
     shapes: [
-      { id: "body", d: "M46 38c3-4 8-5 12-3 2 1 4 3 5 6 1 2 2 3 3 4 2 1 4 3 3 6-1 3-4 5-8 5-2 0-4 0-5-1-2 0-3 1-5 1-4 0-7-2-8-5-1-2 0-5 1-7 1-1 1-3 1-4 0-2 1-3 1-2z" },
-      { id: "left", d: "M16 62c3-4 8-4 11-1 2 2 2 4 1 7-2 3-6 4-10 2-3-1-4-5-2-8z" },
-      { id: "right", d: "M68 58c4-4 10-3 13 1 2 3 2 6 0 9-3 3-8 3-11 1-3-2-4-7-2-11z" },
-      { id: "front", d: "M28 78c6-3 14-4 24-1 5 1 8 3 7 6H26c0-2 0-4 2-5z" }
+      { id: "body", d: "M43 16 L39 23 L42 28 C38 30 34 36 33 44 C32 50 35 55 41 57 L52 57 C58 55 61 50 60 44 C59 38 56 32 53 29 L55 22 L62 17 L56 16 L50 21 L46 16 Z M55 33 L70 32 L75 38 L66 43 L55 40 Z" },
+      { id: "left", d: "M14 28 C10 32 10 40 13 48 C15 54 20 58 27 58 C33 57 36 52 35 46 C34 40 32 34 28 29 C24 25 18 25 14 28 Z" },
+      { id: "right", d: "M62 44 C66 41 74 41 80 44 C85 47 86 52 82 56 C76 60 68 60 63 56 C60 53 60 47 62 44 Z" }
     ]},
-  { id: "body", name: "Body", color: "#e2b43a", copies: 3, keep: "the body", cut: "everything else",
-    blurb: "Cut the gold outline. Weed the rest of the card. Ears stay attached. Do not cut the face.",
-    shapes: [{ id: "body", d: "M46 38c3-4 8-5 12-3 2 1 4 3 5 6 1 2 2 3 3 4 2 1 4 3 3 6-1 3-4 5-8 5-2 0-4 0-5-1-2 0-3 1-5 1-4 0-7-2-8-5-1-2 0-5 1-7 1-1 1-3 1-4 0-2 1-3 1-2z" }] },
-  { id: "left", name: "Left flowers", color: "#3f9d62", copies: 2, keep: "the left cluster", cut: "everything else",
-    blurb: "One blob over the left flowers. Glue two copies face to face.",
-    shapes: [{ id: "left", d: "M16 62c3-4 8-4 11-1 2 2 2 4 1 7-2 3-6 4-10 2-3-1-4-5-2-8z" }] },
-  { id: "right", name: "Right flowers", color: "#d16b8c", copies: 2, keep: "the right cluster", cut: "everything else",
-    blurb: "One blob over the right flowers. Glue two copies face to face.",
-    shapes: [{ id: "right", d: "M68 58c4-4 10-3 13 1 2 3 2 6 0 9-3 3-8 3-11 1-3-2-4-7-2-11z" }] },
-  { id: "front", name: "Front bed", color: "#e08a3c", copies: 2, keep: "the front bed", cut: "everything else",
-    blurb: "Closest layer. It should cover the bottom of the body, not the face.",
-    shapes: [{ id: "front", d: "M28 78c6-3 14-4 24-1 5 1 8 3 7 6H26c0-2 0-4 2-5z" }] }
+  { id: "body", name: "Pikachu", color: "#e2b43a", copies: 3, keep: "Pikachu, ears and tail included", cut: "everything else",
+    blurb: "This is the sitting Pikachu in the middle of the window. Ears and the lightning tail stay on the same piece. Do not cut the eyes or cheeks.",
+    shapes: [{ id: "body", d: "M43 16 L39 23 L42 28 C38 30 34 36 33 44 C32 50 35 55 41 57 L52 57 C58 55 61 50 60 44 C59 38 56 32 53 29 L55 22 L62 17 L56 16 L50 21 L46 16 Z M55 33 L70 32 L75 38 L66 43 L55 40 Z" }] },
+  { id: "left", name: "Left pot", color: "#e08a3c", copies: 2, keep: "the peach flowers and the green pot", cut: "everything else",
+    blurb: "The left foreground pot. It overlaps Pikachu's left hand, so it sits in front of the body.",
+    shapes: [{ id: "left", d: "M14 28 C10 32 10 40 13 48 C15 54 20 58 27 58 C33 57 36 52 35 46 C34 40 32 34 28 29 C24 25 18 25 14 28 Z" }] },
+  { id: "right", name: "Right basket", color: "#d16b8c", copies: 2, keep: "the orange flowers and the basket", cut: "everything else",
+    blurb: "The basket in front of the tail. The purple bouquet behind it stays on the shop layer.",
+    shapes: [{ id: "right", d: "M62 44 C66 41 74 41 80 44 C85 47 86 52 82 56 C76 60 68 60 63 56 C60 53 60 47 62 44 Z" }] }
 ];
 let current = "shop";
 const overlay = document.getElementById("overlay");
@@ -214,10 +211,10 @@ function frame() {
   world(g, () => {
     drawCard();
     ctx.globalCompositeOperation = "destination-out";
-    ["body", "left", "right", "front"].forEach(id => ctx.fill(new Path2D(shape(id))));
+    ["body", "left", "right"].forEach(id => ctx.fill(new Path2D(shape(id))));
     ctx.globalCompositeOperation = "source-over";
   });
-  ["left", "right", "body", "front"].forEach((id, i) => {
+  ["body", "left", "right"].forEach((id, i) => {
     world(g * (2.1 + i * 0.7), () => {
       ctx.save();
       ctx.clip(new Path2D(shape(id)));
