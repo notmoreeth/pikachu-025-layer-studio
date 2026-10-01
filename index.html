@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>025/128 layer studio</title>
+<style>
+  :root {
+    --bg: #0c0b09;
+    --panel: #17150f;
+    --line: #2c2822;
+    --cream: #ede8dc;
+    --muted: #9c968a;
+    --gold: #e2b43a;
+    --cut: #ff5a4a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--cream);
+    font: 15px/1.4 "Avenir Next", "Segoe UI", sans-serif;
+  }
+  header { padding: 16px 16px 8px; }
+  h1 { font-size: 18px; margin: 0 0 4px; font-weight: 650; }
+  .sub { color: var(--muted); font-size: 13px; margin: 0; }
+  nav { display: flex; gap: 6px; padding: 8px 16px 12px; }
+  nav button, .chips button, .row button {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--cream);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font: inherit;
+  }
+  nav button.on, .chips button.on { border-color: var(--gold); color: var(--gold); }
+  .view { display: none; padding: 0 16px 28px; }
+  .view.on { display: block; }
+  .stage {
+    position: relative;
+    width: min(100%, 420px);
+    margin: 0 auto;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .stage img { width: 100%; display: block; }
+  svg.overlay { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+  .note { color: var(--muted); font-size: 13px; }
+  .note b { color: var(--cream); }
+  .viewport {
+    height: 520px;
+    border-radius: 12px;
+    background: radial-gradient(circle at 50% 35%, #2a261f, #0c0b09 72%);
+    position: relative;
+    overflow: hidden;
+    touch-action: none;
+  }
+  canvas { width: 100%; height: 100%; display: block; }
+  .hint { position: absolute; left: 12px; bottom: 10px; color: var(--muted); font-size: 12px; }
+  label.slide { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin: 12px 0 4px; }
+  input[type="range"] { width: 100%; }
+  ol { padding-left: 18px; }
+  li { margin: 8px 0; }
+  .row { display: flex; gap: 8px; margin-top: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pikachu 025/128 layer studio</h1>
+  <p class="sub">Shapes sit on the real card. Drag a shape to agree on the cut. Cutter files come after this looks right.</p>
+</header>
+<nav>
+  <button class="on" data-tab="card">On the card</button>
+  <button data-tab="model">Glued model</button>
+  <button data-tab="steps">How to stack</button>
+</nav>
+
+<section class="view on" id="card">
+  <div class="chips" id="chips"></div>
+  <div class="stage" id="stage">
+    <img src="card.jpg" alt="Pikachu 025/128">
+    <svg class="overlay" id="overlay" viewBox="0 0 100 140"></svg>
+  </div>
+  <p class="note" id="blurb"></p>
+  <div class="row">
+    <button id="reset">Reset shapes</button>
+    <button id="save">Save agreed shapes</button>
+  </div>
+</section>
+
+<section class="view" id="model">
+  <div class="viewport" id="view"><canvas id="cv"></canvas><div class="hint">Drag to turn</div></div>
+  <label class="slide">Pull apart <span id="exv">6</span></label>
+  <input id="explode" type="range" min="0" max="16" value="6">
+  <p class="note">This is the stack glued in order: base, shop with holes, side flowers, body, front bed. Pull apart to check that nothing important is hidden.</p>
+</section>
+
+<section class="view" id="steps">
+  <ol>
+    <li>Buy 16 copies of Pikachu 025/128. One stays whole as the back.</li>
+    <li>Agree the shapes here first. Drag each blob until it covers the matching part of the art.</li>
+    <li>Shop layer: cut the holes, keep the flower shop. Two copies.</li>
+    <li>Body, left flowers, right flowers, front bed: cut the blob, throw away the rest. Two of each, three of the body.</li>
+    <li>Paint the white core on every cut edge. Glue duplicates face to face. Foam tape only between planes.</li>
+    <li>Order from the back: whole card, shop, left and right flowers, body, front bed.</li>
+  </ol>
+  <p class="note">Four of the 16 are spares. Do not cut eyes, cheeks, or single petals. The blade cannot hold them on a card this small.</p>
+</section>
+
+<script>
+const layers = [
+  { id: "shop", name: "Shop holes", color: "#ff5a4a", copies: 2, keep: "the shop", cut: "holes for the body and flowers",
+    blurb: "Cut only the red holes. The flower shop stays. This card sits just above the uncut base.",
+    shapes: [
+      { id: "body", d: "M46 38c3-4 8-5 12-3 2 1 4 3 5 6 1 2 2 3 3 4 2 1 4 3 3 6-1 3-4 5-8 5-2 0-4 0-5-1-2 0-3 1-5 1-4 0-7-2-8-5-1-2 0-5 1-7 1-1 1-3 1-4 0-2 1-3 1-2z" },
+      { id: "left", d: "M16 62c3-4 8-4 11-1 2 2 2 4 1 7-2 3-6 4-10 2-3-1-4-5-2-8z" },
+      { id: "right", d: "M68 58c4-4 10-3 13 1 2 3 2 6 0 9-3 3-8 3-11 1-3-2-4-7-2-11z" },
+      { id: "front", d: "M28 78c6-3 14-4 24-1 5 1 8 3 7 6H26c0-2 0-4 2-5z" }
+    ]},
+  { id: "body", name: "Body", color: "#e2b43a", copies: 3, keep: "the body", cut: "everything else",
+    blurb: "Cut the gold outline. Weed the rest of the card. Ears stay attached. Do not cut the face.",
+    shapes: [{ id: "body", d: "M46 38c3-4 8-5 12-3 2 1 4 3 5 6 1 2 2 3 3 4 2 1 4 3 3 6-1 3-4 5-8 5-2 0-4 0-5-1-2 0-3 1-5 1-4 0-7-2-8-5-1-2 0-5 1-7 1-1 1-3 1-4 0-2 1-3 1-2z" }] },
+  { id: "left", name: "Left flowers", color: "#3f9d62", copies: 2, keep: "the left cluster", cut: "everything else",
+    blurb: "One blob over the left flowers. Glue two copies face to face.",
+    shapes: [{ id: "left", d: "M16 62c3-4 8-4 11-1 2 2 2 4 1 7-2 3-6 4-10 2-3-1-4-5-2-8z" }] },
+  { id: "right", name: "Right flowers", color: "#d16b8c", copies: 2, keep: "the right cluster", cut: "everything else",
+    blurb: "One blob over the right flowers. Glue two copies face to face.",
+    shapes: [{ id: "right", d: "M68 58c4-4 10-3 13 1 2 3 2 6 0 9-3 3-8 3-11 1-3-2-4-7-2-11z" }] },
+  { id: "front", name: "Front bed", color: "#e08a3c", copies: 2, keep: "the front bed", cut: "everything else",
+    blurb: "Closest layer. It should cover the bottom of the body, not the face.",
+    shapes: [{ id: "front", d: "M28 78c6-3 14-4 24-1 5 1 8 3 7 6H26c0-2 0-4 2-5z" }] }
+];
+let current = "shop";
+const overlay = document.getElementById("overlay");
+const chips = document.getElementById("chips");
+function renderChips() {
+  chips.innerHTML = layers.map(l => `<button data-id="${l.id}" class="${l.id===current?"on":""}">${l.name}</button>`).join("");
+  chips.querySelectorAll("button").forEach(b => b.onclick = () => { current = b.dataset.id; renderChips(); draw(); });
+}
+function draw() {
+  const L = layers.find(l => l.id === current);
+  document.getElementById("blurb").innerHTML = `<b>${L.name}</b> · cut ${L.copies}. Keep ${L.keep}. ${L.blurb}`;
+  overlay.innerHTML = L.shapes.map(s => `<path data-id="${s.id}" d="${s.d}" fill="${L.color}55" stroke="${L.color}" stroke-width="1.1" />`).join("");
+  overlay.querySelectorAll("path").forEach(p => bindDrag(p));
+}
+let drag = null;
+function bindDrag(path) {
+  path.addEventListener("pointerdown", e => {
+    drag = { path, x: e.clientX, y: e.clientY, d: path.getAttribute("d") };
+    path.setPointerCapture(e.pointerId);
+  });
+  path.addEventListener("pointermove", e => {
+    if (!drag || drag.path !== path) return;
+    const rect = overlay.getBoundingClientRect();
+    const dx = (e.clientX - drag.x) / rect.width * 100;
+    const dy = (e.clientY - drag.y) / rect.height * 140;
+    path.setAttribute("d", drag.d.replace(/([0-9.]+)\s+([0-9.]+)/g, (_, x, y) => `${(+x+dx).toFixed(1)} ${(+y+dy).toFixed(1)}`));
+  });
+  path.addEventListener("pointerup", () => {
+    if (!drag) return;
+    const L = layers.find(l => l.id === current);
+    const s = L.shapes.find(s => s.id === path.dataset.id);
+    s.d = path.getAttribute("d");
+    layers.forEach(layer => layer.shapes.forEach(sh => { if (sh.id === s.id) sh.d = s.d; }));
+    drag = null;
+  });
+}
+document.getElementById("reset").onclick = () => location.reload();
+document.getElementById("save").onclick = () => {
+  const blob = new Blob([JSON.stringify(layers, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "agreed-shapes.json";
+  a.click();
+};
+document.querySelectorAll("nav button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.remove("on"));
+  document.querySelectorAll(".view").forEach(x => x.classList.remove("on"));
+  b.classList.add("on");
+  document.getElementById(b.dataset.tab).classList.add("on");
+});
+renderChips(); draw();
+
+const cv = document.getElementById("cv");
+const ctx = cv.getContext("2d");
+const img = new Image();
+img.src = "card.jpg";
+let rot = -0.4, explode = 6, turning = false, lx = 0;
+const view = document.getElementById("view");
+view.addEventListener("pointerdown", e => { turning = true; lx = e.clientX; });
+window.addEventListener("pointerup", () => turning = false);
+window.addEventListener("pointermove", e => { if (!turning) return; rot += (e.clientX - lx) * 0.01; lx = e.clientX; });
+document.getElementById("explode").oninput = e => { explode = +e.target.value; document.getElementById("exv").textContent = explode; };
+function fit() { cv.width = view.clientWidth * 2; cv.height = view.clientHeight * 2; }
+window.addEventListener("resize", fit); fit();
+function world(z, draw) {
+  ctx.save();
+  ctx.translate(cv.width / 2, cv.height * 0.46);
+  const s = cv.width / 230;
+  ctx.transform(s, s * 0.08 * Math.sin(rot), s * -0.4 * Math.sin(rot), s * 0.58, 0, 0);
+  ctx.translate(-50, -70 - z);
+  draw();
+  ctx.restore();
+}
+function drawCard() { ctx.drawImage(img, 0, 0, 100, 140); }
+function shape(id) { return layers[0].shapes.find(s => s.id === id).d; }
+function frame() {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  if (!img.complete) { requestAnimationFrame(frame); return; }
+  const g = explode * 1.2;
+  world(0, drawCard);
+  world(g, () => {
+    drawCard();
+    ctx.globalCompositeOperation = "destination-out";
+    ["body", "left", "right", "front"].forEach(id => ctx.fill(new Path2D(shape(id))));
+    ctx.globalCompositeOperation = "source-over";
+  });
+  ["left", "right", "body", "front"].forEach((id, i) => {
+    world(g * (2.1 + i * 0.7), () => {
+      ctx.save();
+      ctx.clip(new Path2D(shape(id)));
+      drawCard();
+      ctx.restore();
+    });
+  });
+  requestAnimationFrame(frame);
+}
+img.onload = frame; frame();
+</script>
+</body>
+</html>
